@@ -6,6 +6,8 @@ oc mirror init /home/test-nfs > imageset-config.yaml
 j
 
 ./mirror-registry install -k --quayHostname $(hostname -f) --sslCert ssl.pem  --sslKey ssl.key  --ssh-key /root/.ssh/quay_installer
+or 
+./mirror-registry install --quayHostname ocp-service.ocp.io --sslCheckSkip 
 
 export OCP_RELEASE="4.13.14"
 
