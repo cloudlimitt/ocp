@@ -1,5 +1,6 @@
 Copy the pull secret in the ~/.docker/config.json
 oc mirror init /home/test-nfs > imageset-config.yaml 
+oc mirror --config=./imageset-config.yaml docker://ocp-service.ocp.io:8443/ocp-mirror
 ===================================================================
 
 
