@@ -1,0 +1,27 @@
+Copy the pull secret in the ~/.docker/config.json
+oc mirror init /home/test-nfs > imageset-config.yaml 
+===================================================================
+
+
+
+
+./mirror-registry install -k --quayHostname $(hostname -f) --sslCert ssl.pem  --sslKey ssl.key  --ssh-key /root/.ssh/quay_installer
+
+export OCP_RELEASE="4.13.14"
+
+export LOCAL_REGISTRY="ocp-service:8443"
+export LOCAL_REPOSITORY="vijay_karthik38/openshift4"
+export LOCAL_RELEASE_IMAGES_REPOSITORY="ocp4/openshift4-release-images"
+export PRODUCT_REPO="openshift-release-dev"
+export LOCAL_SECRET_JSON="/home/pull-secret.json"
+export RELEASE_NAME="ocp-release"
+export ARCHITECTURE="x86_64"
+################
+oc adm release mirror -a ${LOCAL_SECRET_JSON} --from=quay.io/${PRODUCT_REPO}/${RELEASE_NAME}:${OCP_RELEASE}-${ARCHITECTURE} --to=${LOCAL_REGISTRY}/${LOCAL_REPOSITORY} --to-release-image=${LOCAL_REGISTRY}/${LOCAL_REPOSITORY}:${OCP_RELEASE}-${ARCHITECTURE}
+#################
+
+
+ openssl req -x509 -newkey rsa:4096 -days 365 -keyout ca-key.pem -out ca-cert.pem 
+ openssl x509 -in ca-cert.pem -noout -text
+ openssl req -newkey rsa:4096 -keyout server-key.pem -out server-req.pem
+ openssl x509 -req -in server-req.pem -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out server-signed-cert.pem 
