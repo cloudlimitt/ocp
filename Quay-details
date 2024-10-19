@@ -240,4 +240,4 @@ PLAY RECAP *********************************************************************
 root@ocp-service           : ok=50   changed=30   unreachable=0    failed=0    skipped=17   rescued=0    ignored=0   
 
 INFO[2024-10-19 17:17:05] Quay installed successfully, config data is stored in ~/quay-install 
-INFO[2024-10-19 17:17:05] Quay is available at https://ocp-service.ocp.io:8443 with credentials (init, yKPV1QbZkX8L9zxoqMG64cB27503muTe) 
+INFO[2024-10-19 17:17:05] Quay is available at https://ocp-service.ocp.io:8443 with credentials (init, nUb4sd8fL79c26MVBXSlp3r1kCvY5Tw0) 
