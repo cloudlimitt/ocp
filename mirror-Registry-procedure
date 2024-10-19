@@ -1,6 +1,6 @@
 Copy the pull secret in the ~/.docker/config.json
 oc mirror init /home/test-nfs > imageset-config.yaml 
-oc mirror --config=./imageset-config.yaml docker://ocp-service.ocp.io:8443/ocp-mirror
+oc mirror --config ./imageset-config.yaml docker://ocp-service.ocp.io:8443/ocp-mirror -v1  --dest-skip-tls false
 ===================================================================
 
 https://docs.redhat.com/en/documentation/red_hat_openshift_container_storage/4.5/html/preparing_to_deploy_in_a_disconnected_environment/building-and-mirroring-the-red-hat-operator-catalog_rhocs#building-and-mirroring-the-red-hat-operator-catalog_rhocs
