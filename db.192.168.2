@@ -1,0 +1,33 @@
+$TTL    604800
+@       IN      SOA      ocp-service.ocp.php. admin.ocp.php. (
+                  6     ; Serial
+             604800     ; Refresh
+              86400     ; Retry
+            2419200     ; Expire
+             604800     ; Negative Cache TTL
+)
+
+; name servers - NS records
+    IN      NS      ocp-service.ocp.php.
+
+; name servers - PTR records
+210    IN    PTR    ocp-service.ocp.php.
+
+; OpenShift Container Platform Cluster - PTR records
+210    IN    PTR    ocp-service.lab.ocp.php.
+;
+;
+200    IN    PTR    ocp-master.lab.ocp.php.
+201    IN    PTR    ocp-master1.lab.ocp.php.
+202    IN    PTR    ocp-master2.lab.ocp.php.
+;
+;
+203    IN    PTR    ocp-worker1.lab.ocp.php.
+204    IN    PTR    ocp-worker2.lab.ocp.php.
+;
+;
+205    IN    PTR    ocp-bootstrap.lab.ocp.php.
+;
+;
+210    IN    PTR    api.lab.ocp.php.
+210    IN    PTR    api-int.lab.ocp.php.
