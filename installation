@@ -1,0 +1,11 @@
+
+
+openshift-install create manifests --dir install_dir
+
+### Open the <installation_directory>/manifests/cluster-scheduler-02-config.yml file.
+### Locate the mastersSchedulable parameter and ensure that it is set to false.
+### save and exit the file.
+
+## To create the Ignition configuration files, run the following command from the directory that contains the installation program:
+
+openshift-install create ignition-configs --dir install_dir
