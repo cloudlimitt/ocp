@@ -1,4 +1,5 @@
-
+Remove existing file 
+rm -rf auth/ *.ign metadata.json 
 
 openshift-install create manifests --dir install_dir
 
@@ -9,3 +10,7 @@ openshift-install create manifests --dir install_dir
 ## To create the Ignition configuration files, run the following command from the directory that contains the installation program:
 
 openshift-install create ignition-configs --dir install_dir
+cp -rf master.ign worker.ign bootstrap.ign /var/www/html
+
+sudo coreos-installer install --ignition-url=http://192.168.1.2:80/installation_directory/bootstrap.ign /dev/sda --insecure-ignition-hash \
+--append-karg ip=ip=192.168.2.205::192.168.2.1:255.255.255.0:ocp-bootstrap.lab.ocp.php:enp0s3:none:nameserver=192.168.2.210
