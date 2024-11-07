@@ -1,0 +1,4 @@
+#### Generate Self Signed ####
+  438  openssl genrsa -out ocp-service.key 2048 
+  444  openssl req -new -key ocp-service.key  -out ocp-service.csr
+  447  openssl x509 -req -days 365 -in ocp-service.csr  -signkey ocp-service.key -out ocp-service.crt  
