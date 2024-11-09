@@ -28,3 +28,10 @@ oc adm release mirror -a ${LOCAL_SECRET_JSON} --from=quay.io/${PRODUCT_REPO}/${R
  openssl x509 -in ca-cert.pem -noout -text
  openssl req -newkey rsa:4096 -keyout server-key.pem -out server-req.pem
  openssl x509 -req -in server-req.pem -CA ca-cert.pem -CAkey ca-key.pem -CAcreateserial -out server-signed-cert.pem 
+
+==============
+openssl genrsa -out root-CA.key 2048
+openssl req -x509 -new -key root-CA.key -out root-CA.crt -days 1000 -subj "/C=SG/ST=SG/L=SG/O=SG/CN=lab.ocp.php"
+openssl genrsa -out ssl.key 2048
+openssl req -new -key ssl.key -out ssl.csr -subj "/C=SG/ST=SG/L=SG/O=SG/CN=lab.ocp.php" -config openssl.conf
+openssl x509 -req -in ssl.csr -CA root-CA.crt -CAkey root-CA.key -CAcreateserial -out ssl.crt -days 1000
