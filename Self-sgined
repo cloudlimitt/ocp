@@ -6,7 +6,7 @@ $ openssl req -x509 \
   -days 3650 \          
   -key CA_key.pem \
   -out CA_cert.pem \
-  -subj "/C=XX/ST=SomeState/L=SomeLocation/O=MyOrganization/CN=SomeCommonName"
+  -subj "/C=SG/ST=SG/L=SG/O=SG/CN=lab.ocp.php"
 Create a new certificate signing request with the following steps:
 
 $ openssl genrsa -out ssl.key 2048
@@ -14,7 +14,7 @@ $ openssl genrsa -out ssl.key 2048
 $ openssl req -new \
   -key ssl.key \
   -out ssl.csr \
-  -subj "/CN=myserver.example.com"        # change with the mirror registry FQDN
+  -subj "/CN=ocp-service.lab.ocp.php"        # change with the mirror registry FQDN
 
     Create the OpenSSL X509v3 extensions file with Subject Alternative Names:
 
