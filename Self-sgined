@@ -1,4 +1,54 @@
-#### Generate Self Signed ####
-  438  openssl genrsa -out ocp-service.key 2048 
-  444  openssl req -new -key ocp-service.key  -out ocp-service.csr
-  447  openssl x509 -req -days 365 -in ocp-service.csr  -signkey ocp-service.key -out ocp-service.crt  
+$ openssl genrsa -out CA_key.pem 2048
+$ openssl req -x509 \
+  -new \
+  -nodes \
+  -sha256 \
+  -days 3650 \          
+  -key CA_key.pem \
+  -out CA_cert.pem \
+  -subj "/C=XX/ST=SomeState/L=SomeLocation/O=MyOrganization/CN=SomeCommonName"
+Create a new certificate signing request with the following steps:
+
+$ openssl genrsa -out ssl.key 2048
+
+$ openssl req -new \
+  -key ssl.key \
+  -out ssl.csr \
+  -subj "/CN=myserver.example.com"        # change with the mirror registry FQDN
+
+    Create the OpenSSL X509v3 extensions file with Subject Alternative Names:
+
+Raw
+
+vi openssl.cnf
+authorityKeyIdentifier=keyid,issuer
+keyUsage=digitalSignature
+extendedKeyUsage=serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = ocp-service.lab.ocp.php
+DNS.2 = api.int.lab.ocp.php
+DNS.3 = *.apps.lab.ocp.php
+DNS.4 = api.lab.ocp.php
+DNS.5 = ocp-service
+EOF
+
+    Sign the certificate request using the CA and including the above extensions file. Note the parameter -extfile:
+
+Raw
+
+openssl x509 -req \
+  -in ssl.csr \
+  -CA CA_cert.pem \
+  -CAkey CA_key.pem \
+  -CAcreateserial \
+  -out ssl.pem \
+  -days 825 \                           # Certificate validity. Adjust accordingly.          
+  -sha256 \
+  -extfile openssl.cnf
+
+    Replace the mirror registry certificate and key with the new ones, and restart the service.
+\==============================================================
+
+    The self-signed CA certificate for the registry must be put in the /etc/pki/ca-trust/source/anchors/ folder.
+    The update-ca-trust extract command must then be run to have the host trust the new CA certificate.
