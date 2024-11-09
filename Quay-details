@@ -1,4 +1,6 @@
-[root@ocp-service home]# ./mirror-registry install --quayHostname ocp-service.ocp.io --sslCheckSkip 
+[root@ocp-service home]#  ./mirror-registry install -k --quayHostname ocp-service.lab.ocp.php \
+--sslCert /home/new-cert/ssl.crt --sslKey /home/new-cert/ssl.key \
+--ssh-key /root/.ssh/quay_installer --quayRoot /home/test-nfs/ --quayStorage /home/test-nfs/
 
    __   __
   /  \ /  \     ______   _    _     __   __   __
