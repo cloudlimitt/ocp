@@ -56,3 +56,27 @@ imageContentSources:
 - mirrors:
   - <local_registry>/<local_repository_name>/release
   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+==============================================================
+imageContentSources:
+- mirrors:
+  - ocp-service.lab.ocp.php:8443/openshift/ocp4
+  source: quay.io/openshift/okd
+- mirrors:
+  - ocp-service.lab.ocp.php:8443/openshift/ocp4
+  source: quay.io/openshift/okd-content
+
+
+To use the new mirrored repository for upgrades, use the following to create an ImageContentSourcePolicy:
+
+apiVersion: operator.openshift.io/v1alpha1
+kind: ImageContentSourcePolicy
+metadata:
+  name: example
+spec:
+  repositoryDigestMirrors:
+  - mirrors:
+    - ocp-service.lab.ocp.php:8443/openshift/ocp4
+    source: quay.io/openshift/okd
+  - mirrors:
+    - ocp-service.lab.ocp.php:8443/openshift/ocp4
+    source: quay.io/openshift/okd-content
