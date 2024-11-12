@@ -18,7 +18,7 @@ sudo coreos-installer install --ignition-url=http://192.168.2.210:8080/bootstrap
 --append-karg ip=::10.10.10.254::::
 
 openshift-install --dir install_dir wait-for bootstrap-complete --log-level=info 
-
+sudo iptables -A INPUT -p tcp --dport xxxx -j ACCEPT
 ============================
 Sample-config 
 apiVersion: v1
