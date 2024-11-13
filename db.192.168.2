@@ -1,5 +1,5 @@
 $TTL    604800
-@       IN      SOA      ocp-service.ocp.php. admin.ocp.php. (
+@       IN      SOA      ocp-service.lab.ocp.php. admin.lab.ocp.php. (
                   6     ; Serial
              604800     ; Refresh
               86400     ; Retry
@@ -8,10 +8,10 @@ $TTL    604800
 )
 
 ; name servers - NS records
-    IN      NS      ocp-service.ocp.php.
+    IN      NS      ocp-service.lab.ocp.php.
 
 ; name servers - PTR records
-210    IN    PTR    ocp-service.ocp.php.
+210    IN    PTR    ocp-service.lab.ocp.php.
 
 ; OpenShift Container Platform Cluster - PTR records
 210    IN    PTR    ocp-service.lab.ocp.php.
@@ -29,5 +29,5 @@ $TTL    604800
 205    IN    PTR    ocp-bootstrap.lab.ocp.php.
 ;
 ;
-210    IN    PTR    api.lab.ocp.php.
-210    IN    PTR    api-int.lab.ocp.php.
+210    IN    PTR    api.ocp-clus.lab.ocp.php.
+210    IN    PTR    api-int.ocp-clus.lab.ocp.php.
