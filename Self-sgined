@@ -52,3 +52,8 @@ openssl x509 -req \
 
     The self-signed CA certificate for the registry must be put in the /etc/pki/ca-trust/source/anchors/ folder.
     The update-ca-trust extract command must then be run to have the host trust the new CA certificate.
+==============================================================
+extract the key and cert
+openssl rsa -in okd-CA_key.pem -text
+openssl x509 -in okd-CA_key.pem -text 
+
