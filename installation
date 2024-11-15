@@ -1,6 +1,6 @@
 Remove existing file 
 cd install_dir
-rm -rf auth/ *.ign metadata.json .openshift-install*
+rm -rf auth/ *.ign metadata.json .openshift_install*
 
 openshift-install create manifests --dir install_dir
 
