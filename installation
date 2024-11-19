@@ -1,7 +1,8 @@
 Remove existing file 
 cd install_dir
 rm -rf auth/ *.ign metadata.json .openshift_install*
-
+cp install-config.yaml-bkp install-config.yaml
+cd ../
 openshift-install create manifests --dir install_dir
 
 ### Open the <installation_directory>/manifests/cluster-scheduler-02-config.yml file.
