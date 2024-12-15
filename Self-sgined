@@ -57,3 +57,5 @@ extract the key and cert
 openssl rsa -in okd-CA_key.pem -text
 openssl x509 -in okd-CA_key.pem -text 
 
+https://www.golinuxcloud.com/openssl-view-certificate/
+
