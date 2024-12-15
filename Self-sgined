@@ -58,4 +58,5 @@ openssl rsa -in okd-CA_key.pem -text
 openssl x509 -in okd-CA_key.pem -text 
 
 https://www.golinuxcloud.com/openssl-view-certificate/
+https://www.shellhacks.com/openssl-check-private-key-matches-ssl-certificate-csr/
 
