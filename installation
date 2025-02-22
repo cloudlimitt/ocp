@@ -12,6 +12,9 @@ sed -i s/true/false/g /root/ocp/install_dir/manifests/cluster-scheduler-02-confi
 ## To create the Ignition configuration files, run the following command from the directory that contains the installation program:
 
 openshift-install create ignition-configs --dir install_dir
+
+cd /var/www/html
+rm -rf  *.ign 
 cd install_dir
 cp -rf master.ign worker.ign bootstrap.ign /var/www/html
 
