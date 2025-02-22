@@ -15,7 +15,7 @@ openshift-install create ignition-configs --dir install_dir
 
 cd /var/www/html
 rm -rf  *.ign 
-cd install_dir
+cd ~/ocp/install_dir/
 cp -rf master.ign worker.ign bootstrap.ign /var/www/html
 chmod 644
 
