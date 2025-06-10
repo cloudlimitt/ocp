@@ -1,6 +1,4 @@
-[root@ocp-service home]#  ./mirror-registry install -k --quayHostname ocp-service.lab.ocp.php \
---sslCert /home/new-cert/ssl.crt --sslKey /home/new-cert/ssl.key \
---ssh-key /root/.ssh/quay_installer --quayRoot /home/test-nfs/ --quayStorage /home/test-nfs/
+[root@ocp-service certs]# ./mirror-registry install -k --quayHostname ocp-service.lab.ocp.php --sslCert /certs/ssl.pem --sslKey /certs/ssl.key --ssh-key /root/.ssh/quay_installer --quayRoot /home/test-nfs/ --quayStorage /home/test-nfs/
 
    __   __
   /  \ /  \     ______   _    _     __   __   __
@@ -11,235 +9,234 @@
   \__/ \__/      \ \__
                   \___\ by Red Hat
  Build, Store, and Distribute your Containers
-	
-INFO[2024-10-19 17:11:52] Install has begun                            
-INFO[2024-10-19 17:11:52] Found execution environment at /home/execution-environment.tar 
-INFO[2024-10-19 17:11:52] Loading execution environment from execution-environment.tar 
-INFO[2024-10-19 17:12:13] Detected an installation to localhost        
-INFO[2024-10-19 17:12:13] Found SSH key at /root/.ssh/quay_installer   
-INFO[2024-10-19 17:12:13] Attempting to set SELinux rules on /root/.ssh/quay_installer 
-WARN[2024-10-19 17:12:13] Could not set SELinux rule. If your system does not have SELinux enabled, you may ignore this. 
-INFO[2024-10-19 17:12:13] Found image archive at /home/image-archive.tar 
-INFO[2024-10-19 17:12:13] Detected an installation to localhost        
-INFO[2024-10-19 17:12:13] Unpacking image archive from /home/image-archive.tar 
-INFO[2024-10-19 17:12:44] Loading pause image archive from pause.tar   
-INFO[2024-10-19 17:12:57] Loading redis image archive from redis.tar   
-INFO[2024-10-19 17:13:11] Loading postgres image archive from postgres.tar 
-INFO[2024-10-19 17:13:33] Loading Quay image archive from quay.tar     
-INFO[2024-10-19 17:14:17] Attempting to set SELinux rules on image archive 
-WARN[2024-10-19 17:14:17] Could not set SELinux rule. If your system does not have SELinux enabled, you may ignore this. 
-INFO[2024-10-19 17:14:17] Running install playbook. This may take some time. To see playbook output run the installer with -v (verbose) flag. 
-INFO[2024-10-19 17:14:17] Detected an installation to localhost        
 
-PLAY [Install Mirror Appliance] *********************************************************************************************************************************************************
+INFO[2025-06-10 20:29:45] Install has begun                            
+INFO[2025-06-10 20:29:45] Found execution environment at /certs/execution-environment.tar 
+INFO[2025-06-10 20:29:45] Loading execution environment from execution-environment.tar 
+INFO[2025-06-10 20:29:53] Loading SSL certificate file /certs/ssl.pem  
+INFO[2025-06-10 20:29:53] Loading SSL key file /certs/ssl.key          
+INFO[2025-06-10 20:29:53] SSL certificate check succeeded              
+INFO[2025-06-10 20:29:53] Attempting to set SELinux rules on /certs/ssl.pem 
+WARN[2025-06-10 20:29:53] Could not set SELinux rule. If your system does not have SELinux enabled, you may ignore this. 
+INFO[2025-06-10 20:29:53] Attempting to set SELinux rules on /certs/ssl.key 
+WARN[2025-06-10 20:29:53] Could not set SELinux rule. If your system does not have SELinux enabled, you may ignore this. 
+INFO[2025-06-10 20:29:53] Detected an installation to localhost        
+INFO[2025-06-10 20:29:53] Did not find SSH key in default location. Attempting to set up SSH keys. 
+INFO[2025-06-10 20:29:53] Generating SSH Key                           
+INFO[2025-06-10 20:29:53] Generated SSH Key at /root/.ssh/quay_installer 
+INFO[2025-06-10 20:29:53] Adding key to ~/.ssh/authorized_keys         
+INFO[2025-06-10 20:29:53] Successfully set up SSH keys                 
+INFO[2025-06-10 20:29:53] Attempting to set SELinux rules on /root/.ssh/quay_installer 
+WARN[2025-06-10 20:29:53] Could not set SELinux rule. If your system does not have SELinux enabled, you may ignore this. 
+INFO[2025-06-10 20:29:53] Found image archive at /certs/image-archive.tar 
+INFO[2025-06-10 20:29:53] Detected an installation to localhost        
+INFO[2025-06-10 20:29:53] Unpacking image archive from /certs/image-archive.tar 
+INFO[2025-06-10 20:29:55] Loading pause image archive from pause.tar   
+INFO[2025-06-10 20:29:56] Loading redis image archive from redis.tar   
+INFO[2025-06-10 20:30:01] Loading Quay image archive from quay.tar     
+INFO[2025-06-10 20:30:28] Attempting to set SELinux rules on image archive 
+WARN[2025-06-10 20:30:28] Could not set SELinux rule. If your system does not have SELinux enabled, you may ignore this. 
+INFO[2025-06-10 20:30:28] Running install playbook. This may take some time. To see playbook output run the installer with -v (verbose) flag. 
+INFO[2025-06-10 20:30:28] Detected an installation to localhost        
 
-TASK [Gathering Facts] ******************************************************************************************************************************************************************
-ok: [root@ocp-service]
+PLAY [Install Mirror Appliance] *********************************************************************************************************************************************************************************************************
 
-TASK [mirror_appliance : Expand variables] **********************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/expand-vars.yaml for root@ocp-service
+TASK [Gathering Facts] ******************************************************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Expand pg_storage] *********************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Expand variables] **********************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/expand-vars.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Expand quay_root] **********************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Expand quay_root] **********************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Expand quay_storage] *******************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Expand quay_storage] *******************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Set expanded variables] ****************************************************************************************************************************************
-ok: [root@ocp-service]
+TASK [mirror_appliance : Expand sqlite_storage] *****************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Install Dependencies] ******************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/install-deps.yaml for root@ocp-service
+TASK [mirror_appliance : Set expanded variables] ****************************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create user service directory] *********************************************************************************************************************************
-ok: [root@ocp-service]
+TASK [mirror_appliance : Create secret vars] ********************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/secret-vars.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Set SELinux Rules] *********************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/set-selinux-rules.yaml for root@ocp-service
+TASK [mirror_appliance : Generate secrets for Quay config.yaml] *************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Set container_manage_cgroup flag on and keep it persistent across reboots] *************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Install Dependencies] ******************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/install-deps.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Install Quay Pod Service] **************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/install-pod-service.yaml for root@ocp-service
+TASK [mirror_appliance : Create user service directory] *********************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Copy Quay Pod systemd service file] ****************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Set SELinux Rules] *********************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/set-selinux-rules.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Check if pod pause image is loaded] ****************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Set container_manage_cgroup flag on and keep it persistent across reboots] *************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Pull Infra image] **********************************************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Autodetect Image Archive] **************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/autodetect-image-archive.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Start Quay Pod service] ****************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Checking for Image Archive] ************************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php -> localhost]
 
-TASK [mirror_appliance : Autodetect Image Archive] **************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/autodetect-image-archive.yaml for root@ocp-service
+TASK [mirror_appliance : Create install directory for image-archive.tar dest] ***********************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Checking for Image Archive] ************************************************************************************************************************************
-ok: [root@ocp-service -> localhost]
+TASK [mirror_appliance : Copy Images if /runner/image-archive.tar exists] ***************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create install directory for image-archive.tar dest] ***********************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Unpack Images if /runner/image-archive.tar exists] *************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Copy Images if /runner/image-archive.tar exists] ***************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Loading Pause if pause.tar exists] *****************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Unpack Images if /runner/image-archive.tar exists] *************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Loading Redis if redis.tar exists] *****************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Loading Redis if redis.tar exists] *****************************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Loading Quay if quay.tar exists] *******************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Loading Quay if quay.tar exists] *******************************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Install Quay Pod Service] **************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/install-pod-service.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Loading Postgres if postgres.tar exists] ***********************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Copy Quay Pod systemd service file] ****************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Install Postgres Service] **************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/install-postgres-service.yaml for root@ocp-service
+TASK [mirror_appliance : Check if pod pause image is loaded] ****************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create necessary directory for Postgres persistent data] *******************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Pull Infra image] **********************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Set permissions on local storage directory] ********************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Start Quay Pod service] ****************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Copy Postgres systemd service file] ****************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Install Redis Service] *****************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/install-redis-service.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Check if Postgres image is loaded] *****************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Copy Redis systemd service file] *******************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Pull Postgres image] *******************************************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Check if Redis image is loaded] ********************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create Postgres Storage named volume] **************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Pull Redis image] **********************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Start Postgres service] ****************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create Redis Password Secret] **********************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Wait for pg_trgm to be installed] ******************************************************************************************************************************
-FAILED - RETRYING: [root@ocp-service]: Wait for pg_trgm to be installed (20 retries left).
-changed: [root@ocp-service]
+TASK [mirror_appliance : Start Redis service] *******************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Install Redis Service] *****************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/install-redis-service.yaml for root@ocp-service
+TASK [mirror_appliance : Install Quay Service] ******************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/install-quay-service.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Copy Redis systemd service file] *******************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create necessary directory for Quay local storage] *************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Check if Redis image is loaded] ********************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Set permissions on local storage directory] ********************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Pull Redis image] **********************************************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Create necessary directory for sqlite storage] *****************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Start Redis service] *******************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Set permissions on sqlite storage directory] *******************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Install Quay Service] ******************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/install-quay-service.yaml for root@ocp-service
+TASK [mirror_appliance : Create necessary directory for Quay config bundle] *************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create necessary directory for Quay local storage] *************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Copy Quay config.yaml file] ************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Set permissions on local storage directory] ********************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Check if SSL Cert exists] **************************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php -> localhost]
 
-TASK [mirror_appliance : Create necessary directory for Quay config bundle] *************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Check if SSL Key exists] ***************************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php -> localhost]
 
-TASK [mirror_appliance : Copy Quay config.yaml file] ************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create necessary directory for Quay rootCA files] **************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Check if SSL Cert exists] **************************************************************************************************************************************
-ok: [root@ocp-service -> localhost]
+TASK [mirror_appliance : Create OpenSSL Config] *****************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Check if SSL Key exists] ***************************************************************************************************************************************
-ok: [root@ocp-service -> localhost]
+TASK [mirror_appliance : Create root CA key] ********************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create necessary directory for Quay rootCA files] **************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create root CA pem] ********************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create OpenSSL Config] *****************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create ssl key] ************************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create root CA key] ********************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create CSR] ****************************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create root CA pem] ********************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create self-signed cert] ***************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create ssl key] ************************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create chain cert] *********************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create CSR] ****************************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Replace ssl cert with chain cert] ******************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create self-signed cert] ***************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Copy SSL certificate] ******************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create chain cert] *********************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Copy SSL key] **************************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Replace ssl cert with chain cert] ******************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Set permissions for key] ***************************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Copy SSL certificate] ******************************************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Set permissions for cert] **************************************************************************************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Copy SSL key] **************************************************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Copy Quay systemd service file] ********************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Set permissions for key] ***************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Check if Quay image is loaded] *********************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Set permissions for cert] **************************************************************************************************************************************
-ok: [root@ocp-service]
+TASK [mirror_appliance : Pull Quay image] ***********************************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Copy Quay systemd service file] ********************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create Quay Storage named volume] ******************************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Check if Quay image is loaded] *********************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Create Sqlite Storage named volume] ****************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Pull Quay image] ***********************************************************************************************************************************************
-skipping: [root@ocp-service]
+TASK [mirror_appliance : Start Quay service] ********************************************************************************************************************************************************************************************
+changed: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create Quay Storage named volume] ******************************************************************************************************************************
-ok: [root@ocp-service]
+TASK [mirror_appliance : Wait for Quay] *************************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/wait-for-quay.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Start Quay service] ********************************************************************************************************************************************
-changed: [root@ocp-service]
+TASK [mirror_appliance : Waiting up to 3 minutes for Quay to become alive at https://ocp-service.lab.ocp.php:8443/health/instance] ******************************************************************************************************
+FAILED - RETRYING: [root@ocp-service.lab.ocp.php]: Waiting up to 3 minutes for Quay to become alive at https://ocp-service.lab.ocp.php:8443/health/instance (10 retries left).
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Wait for Quay] *************************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/wait-for-quay.yaml for root@ocp-service
+TASK [mirror_appliance : Create init user] **********************************************************************************************************************************************************************************************
+included: /runner/project/roles/mirror_appliance/tasks/create-init-user.yaml for root@ocp-service.lab.ocp.php
 
-TASK [mirror_appliance : Waiting up to 3 minutes for Quay to become alive at https://ocp-service.ocp.io:8443/health/instance] ***********************************************************
-FAILED - RETRYING: [root@ocp-service]: Waiting up to 3 minutes for Quay to become alive at https://ocp-service.ocp.io:8443/health/instance (10 retries left).
-FAILED - RETRYING: [root@ocp-service]: Waiting up to 3 minutes for Quay to become alive at https://ocp-service.ocp.io:8443/health/instance (9 retries left).
-FAILED - RETRYING: [root@ocp-service]: Waiting up to 3 minutes for Quay to become alive at https://ocp-service.ocp.io:8443/health/instance (8 retries left).
-ok: [root@ocp-service]
+TASK [mirror_appliance : Creating init user at endpoint https://ocp-service.lab.ocp.php:8443/api/v1/user/initialize] ********************************************************************************************************************
+ok: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Create init user] **********************************************************************************************************************************************
-included: /runner/project/roles/mirror_appliance/tasks/create-init-user.yaml for root@ocp-service
+TASK [mirror_appliance : Enable lingering for systemd user processes] *******************************************************************************************************************************************************************
+skipping: [root@ocp-service.lab.ocp.php]
 
-TASK [mirror_appliance : Creating init user at endpoint https://ocp-service.ocp.io:8443/api/v1/user/initialize] *************************************************************************
-ok: [root@ocp-service]
+PLAY RECAP ******************************************************************************************************************************************************************************************************************************
+root@ocp-service.lab.ocp.php : ok=42   changed=20   unreachable=0    failed=0    skipped=22   rescued=0    ignored=0   
 
-TASK [mirror_appliance : Enable lingering for systemd user processes] *******************************************************************************************************************
-skipping: [root@ocp-service]
-
-PLAY RECAP ******************************************************************************************************************************************************************************
-root@ocp-service           : ok=50   changed=30   unreachable=0    failed=0    skipped=17   rescued=0    ignored=0   
-
-INFO[2024-10-19 17:17:05] Quay installed successfully, config data is stored in ~/quay-install 
-INFO[2024-10-19 17:17:05] Quay is available at https://ocp-service.ocp.io:8443 with credentials (init, ty514CSjOb83dw2U7qnu9lG0QLYmIPZ6) 
+INFO[2025-06-10 20:31:20] Quay installed successfully, config data is stored in /home/test-nfs/ 
+INFO[2025-06-10 20:31:20] Quay is available at https://ocp-service.lab.ocp.php:8443 with credentials (init, WB7P5XDS0oC2K6miy3T9dEg4vN8jn1pk) 
+[root@ocp-service certs]# 
