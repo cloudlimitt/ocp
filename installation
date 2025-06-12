@@ -20,6 +20,7 @@ cp -rf master.ign worker.ign bootstrap.ign /var/www/html
 chmod 644 /var/www/html/*
 
 curl -v http://192.168.2.210:8080/bootstrap.ign
+openshift-install coreos print-stream-json | grep '\.iso[^.]'
 
 sudo coreos-installer install --ignition-url=http://192.168.2.210:8080/bootstrap.ign /dev/sda --insecure-ignition \
 --append-karg ip=192.168.2.205::192.168.2.254:255.255.255.0:ocp-bootstrap.lab.ocp.php:enp0s3:none \
