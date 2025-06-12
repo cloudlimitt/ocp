@@ -59,3 +59,4 @@ iptables -A INPUT -p udp --dport 500             	-j ACCEPT
 iptables -A INPUT -p udp --dport 4500           	-j ACCEPT
 iptables -A INPUT -p tcp  --dport 123             -j ACCEPT
 iptables -A INPUT -p udp --dport 3000-32767 	-j ACCEPT
+iptables-save
