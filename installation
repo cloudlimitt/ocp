@@ -40,7 +40,7 @@ sudo coreos-installer install --ignition-url=http://192.168.2.210:8080/master.ig
 
 --append-karg ip=::10.10.10.254::::
 
-openshift-install --dir install_dir wait-for bootstrap-complete --log-level=info 
+openshift-install --dir /home/test-nfs/install_ocp wait-for bootstrap-complete --log-level=info 
 sudo iptables -A INPUT -p tcp --dport xxxx -j ACCEPT
 ============================
 Sample-config 
