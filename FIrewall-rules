@@ -29,3 +29,33 @@ firewall-cmd --permanent --add-port=3000-32767/tcp
 firewall-cmd --permanent --add-port=3000-32767/udp
 sudo firewall-cmd --permanent --add-masquerade
 sudo firewall-cmd --reload
+
+IPtables - 
+iptables -A INPUT --dport 6643 -j ACCEPT
+iptables -A INPUT -p tcp 	 --dport 2379-2380 -j ACCEPT
+iptables -A INPUT -p tcp 	 --dport 10250        -j ACCEPT
+iptables -A INPUT -p tcp 	 --dport 10251        -j ACCEPT
+iptables -A INPUT -p tcp 	 --dport 10252        -j ACCEPT
+iptables -A INPUT -p udp	 --dport 179            -j ACCEPT
+iptables -A INPUT -p udp	 --dport 4789          -j ACCEPT
+iptables -A INPUT -p udp	 --dport 6783          -j ACCEPT
+iptables -A INPUT -p tcp 	 --dport 6784          -j ACCEPT
+iptables -A INPUT -p tcp 	 --dport 10255        -j ACCEPT
+iptables -A INPUT -p tcp 	 --dport 5473          -j ACCEPT
+iptables -A INPUT -p udp	 --dport 53              -j ACCEPT
+iptables -A INPUT -p tcp	 --dport 53                  -j ACCEPT
+iptables -A INPUT -p tcp	 --dport 22623            -j ACCEPT
+iptables -A INPUT -p tcp	 --dport 8080              -j ACCEPT
+iptables -A INPUT -p tcp	 --dport 3389              -j ACCEPT
+iptables -A INPUT -p tcp	 --dport 9000            -j ACCEPT
+iptables -A INPUT -p tcp	 --dport 9000-9999   -j ACCEPT
+iptables -A INPUT -p tcp --dport 1936            	-j ACCEPT
+iptables -A INPUT -p tcp  --dport 10250-1025 -j ACCEPT
+iptables -A INPUT -p udp --dport 10256          -j ACCEPT
+iptables -A INPUT -p udp --dport 4789            -j ACCEPT
+iptables -A INPUT -p udp --dport 6081           	-j ACCEPT
+iptables -A INPUT -p udp --dport 9000-9999     -j ACCEPT
+iptables -A INPUT -p udp --dport 500             	-j ACCEPT
+iptables -A INPUT -p udp --dport 4500           	-j ACCEPT
+iptables -A INPUT -p tcp  --dport 123             -j ACCEPT
+iptables -A INPUT -p udp --dport 3000-32767 	-j ACCEPT
