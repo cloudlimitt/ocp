@@ -30,6 +30,14 @@ sudo coreos-installer install --ignition-url=http://192.168.2.210:8080/master.ig
 --append-karg ip=192.168.2.200::192.168.2.254:255.255.255.0:ocp-master.lab.ocp.php:enp0s3:none \
 --append-karg nameserver=192.168.2.210
 
+sudo coreos-installer install --ignition-url=http://192.168.2.210:8080/master.ign /dev/sda --insecure-ignition \
+--append-karg ip=192.168.2.201::192.168.2.254:255.255.255.0:ocp-master1.lab.ocp.php:enp0s3:none \
+--append-karg nameserver=192.168.2.210
+
+sudo coreos-installer install --ignition-url=http://192.168.2.210:8080/master.ign /dev/sda --insecure-ignition \
+--append-karg ip=192.168.2.202::192.168.2.254:255.255.255.0:ocp-master2.lab.ocp.php:enp0s3:none \
+--append-karg nameserver=192.168.2.210
+
 --append-karg ip=::10.10.10.254::::
 
 openshift-install --dir install_dir wait-for bootstrap-complete --log-level=info 
