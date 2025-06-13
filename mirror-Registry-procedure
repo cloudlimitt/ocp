@@ -10,7 +10,7 @@ j
 or 
 ./mirror-registry install --quayHostname ocp-service.ocp.io --sslCheckSkip 
 
-export OCP_RELEASE="4.14.0-0.okd-2024-01-26-175629"
+export OCP_RELEASE="4.14.51"
 
 export LOCAL_REGISTRY="ocp-service.lab.ocp.php:8443"
 export LOCAL_REPOSITORY="openshift4/ocpv4"
