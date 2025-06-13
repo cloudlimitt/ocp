@@ -80,13 +80,20 @@ imageContentSources:
   - <local_registry>/<local_repository_name>/release
   source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
 ==============================================================
+Success
+Update image:  ocp-service.lab.ocp.php:8443/openshift4/ocpv4:4.14.51-x86_64
+Mirror prefix: ocp-service.lab.ocp.php:8443/openshift4/ocpv4
+Mirror prefix: ocp-service.lab.ocp.php:8443/openshift4/ocpv4:4.14.51-x86_64
+
+To use the new mirrored repository to install, add the following section to the install-config.yaml:
+
 imageContentSources:
 - mirrors:
-  - ocp-service.lab.ocp.php:8443/openshift/ocp4
-  source: quay.io/openshift/okd
+  - ocp-service.lab.ocp.php:8443/openshift4/ocpv4
+  source: quay.io/openshift-release-dev/ocp-release
 - mirrors:
-  - ocp-service.lab.ocp.php:8443/openshift/ocp4
-  source: quay.io/openshift/okd-content
+  - ocp-service.lab.ocp.php:8443/openshift4/ocpv4
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
 
 
 To use the new mirrored repository for upgrades, use the following to create an ImageContentSourcePolicy:
@@ -98,8 +105,9 @@ metadata:
 spec:
   repositoryDigestMirrors:
   - mirrors:
-    - ocp-service.lab.ocp.php:8443/openshift/ocp4
-    source: quay.io/openshift/okd
+    - ocp-service.lab.ocp.php:8443/openshift4/ocpv4
+    source: quay.io/openshift-release-dev/ocp-release
   - mirrors:
-    - ocp-service.lab.ocp.php:8443/openshift/ocp4
-    source: quay.io/openshift/okd-content
+    - ocp-service.lab.ocp.php:8443/openshift4/ocpv4
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+[root@ocp-service registry]# 
