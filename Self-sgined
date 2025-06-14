@@ -27,7 +27,20 @@ EOF
 
 Raw
 
-openssl x509 -req -in ssl.csr -CA CA_cert.pem -CAkey CA_key.pem -CAcreateserial -out ssl.pem -days 825 -sha256  -extfile openssl.cnf    # Certificate validity. Adjust accordingly.          
+openssl x509 -req -in ssl.csr -CA CA_cert.pem -CAkey CA_key.pem -CAcreateserial -out ssl.pem -days 825 -sha256  -extfile openssl.cnf    # Certificate validity. Adjust accordingly. 
+=====================================================================================================================
+default ingress certificate - 
+openssl genrsa -out ingress.key 2048
+openssl req -new -key ingress.key -out ingress.crt -subj "/CN=*.apps.lab.ocp.php"
+cat openssl-ocp.cnf
+authorityKeyIdentifier=keyid,issuer
+keyUsage=digitalSignature
+extendedKeyUsage=serverAuth
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = api.lab.ocp.php
+DNS.2 = *.apps.lab.ocp.php
+openssl x509 -req -in ingress.crt -CA CA_cert.pem -CAkey CA_key.pem -CAcreateserial -out ingress.key -days 825 -sha256  -extfile openssl-ocp.cnf
 
 
     Replace the mirror registry certificate and key with the new ones, and restart the service.
