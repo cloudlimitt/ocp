@@ -1,5 +1,5 @@
 Remove existing file 
-cd install_ocp
+cd /home/test-nfs/install_ocp
 rm -rf auth/ *.ign metadata.json .openshift_install*
 cp install-config.yaml-bkp install-config.yaml
 cd ../
