@@ -19,7 +19,7 @@ cd /home/test-nfs/install_ocp/
 cp -rf master.ign worker.ign bootstrap.ign /var/www/html
 chmod 644 /var/www/html/*
 
-curl -v http://192.168.2.210:8080/bootstrap.ign
+curl -v http://192.168.2.210:8000/bootstrap.ign
 openshift-install coreos print-stream-json | grep '\.iso[^.]'
 
 sudo coreos-installer install --ignition-url=http://192.168.2.210:8000/bootstrap.ign /dev/sda --insecure-ignition \
