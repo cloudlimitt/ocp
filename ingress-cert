@@ -23,6 +23,10 @@ Raw
 
 openssl x509 -req -in ingress.csr -CA CA_cert.pem -CAkey CA_key.pem -CAcreateserial -out ingress.key -days 825 -sha256  -extfile openssl-ocp.cnf
 
+create Application cert - 
+==========================================
+openssl x509 -req -days 365 -in ingress.csr -signkey ingress.key  -out ingress.crt 
+
    The self-signed CA certificate for the registry must be put in the /etc/pki/ca-trust/source/anchors/ folder.
     The update-ca-trust extract command must then be run to have the host trust the new CA certificate.
 ==============================================================
