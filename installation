@@ -1,7 +1,7 @@
 Remove existing file 
 cd /home/test-nfs/install_ocp
 rm -rf auth/ *.ign metadata.json .openshift_install*
-cp install-config.yaml-bkp install-config.yaml
+cp /home/test-nfs/install-config.yam/ /home/test-nfs/install_ocp/install-config.yaml
 cd ../
 openshift-install create manifests --dir install_ocp
 sed -i s/true/false/g /home/test-nfs/install_ocp/manifests/cluster-scheduler-02-config.yml
