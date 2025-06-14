@@ -1,21 +1,21 @@
 Remove existing file 
-cd install_dir
+cd install_ocp
 rm -rf auth/ *.ign metadata.json .openshift_install*
 cp install-config.yaml-bkp install-config.yaml
 cd ../
-openshift-install create manifests --dir install_dir
-sed -i s/true/false/g /root/ocp/install_dir/manifests/cluster-scheduler-02-config.yml
+openshift-install create manifests --dir install_ocp
+sed -i s/true/false/g /home/test-nfs/install_ocp/manifests/cluster-scheduler-02-config.yml
 
 ### Open the <installation_directory>/manifests/cluster-scheduler-02-config.yml file.
 ### Locate the mastersSchedulable parameter and ensure that it is set to false.
 ### save and exit the file.
 ## To create the Ignition configuration files, run the following command from the directory that contains the installation program:
 
-openshift-install create ignition-configs --dir install_dir
+./openshift-install create ignition-configs --dir install_ocp
 
 cd /var/www/html
 rm -rf  *.ign 
-cd ~/ocp/install_dir/
+cd /home/test-nfs/install_ocp/
 cp -rf master.ign worker.ign bootstrap.ign /var/www/html
 chmod 644 /var/www/html/*
 
@@ -40,7 +40,7 @@ sudo coreos-installer install --ignition-url=http://192.168.2.210:8080/master.ig
 
 --append-karg ip=::10.10.10.254::::
 
-openshift-install --dir /home/test-nfs/install_ocp wait-for bootstrap-complete --log-level=info 
+openshift-install --dir /home/test-nfs/install_ocp wait-for bootstrap-complete --log-level=debug 
 sudo iptables -A INPUT -p tcp --dport xxxx -j ACCEPT
 ============================
 Sample-config 
