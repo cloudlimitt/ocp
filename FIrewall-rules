@@ -27,6 +27,8 @@ firewall-cmd --permanent --add-port=4500/udp
 firewall-cmd --permanent --add-port=123/udp
 firewall-cmd --permanent --add-port=3000-32767/tcp
 firewall-cmd --permanent --add-port=3000-32767/udp
+firewall-cmd --permanent --add-port=443/tcp
+firewall-cmd --permanent --add-port=80/tcp
 sudo firewall-cmd --permanent --add-masquerade
 sudo firewall-cmd --reload
 
