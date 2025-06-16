@@ -49,8 +49,10 @@ openssl x509 -req  -copy_extensions copy  -in app.csr.pem \
   -CAkey ca/intermediate/private/intermediate.key.pem \
   -CAcreateserial -out app.cert.pem -days 825 -sha256
 
+5. Create Full Chain Certificate
 
-
+# cat app.cert.pem ca/intermediate/certs/intermediate.cert.pem ca/root/certs/ca.cert.pem > app.fullchain.pem
+==========================================
 ✅ Resulting Files:
 ca/root/certs/ca.cert.pem → Root CA cert
 
@@ -59,10 +61,29 @@ ca/intermediate/certs/intermediate.cert.pem → Intermediate CA cert
 app.key.pem → App private key
 
 app.cert.pem → App certificate (signed by Intermediate)
+==========================================================================
+Verification - 
+=============================
+1. openssl x509 -in app.cert.pem -noout -text | grep -A1 "Subject Alternative Name"
+2. openssl verify -CAfile <(cat ca/intermediate/certs/intermediate.cert.pem ca/root/certs/ca.cert.pem) app.cert.pem
+✅ How to correctly verify your full chain:
+1. Check if root CA is self-signed
+openssl x509 -noout -issuer -subject -in ca/root/certs/ca.cert.pem
+If issuer == subject, it's self-signed (expected for root CA).
 
-🔗 (Optional) Create Full Chain Certificate
-==================================================================
-cat app.cert.pem ca/intermediate/certs/intermediate.cert.pem ca/root/certs/ca.cert.pem > app.fullchain.pem
+2. Verify Intermediate Cert Against Root CA
+openssl verify -CAfile ca/root/certs/ca.cert.pem ca/intermediate/certs/intermediate.cert.pem
+✅ Expected output:
+
+ca/intermediate/certs/intermediate.cert.pem: OK
+3. Verify App Cert Against Chain (Root + Intermediate)
+
+cat ca/intermediate/certs/intermediate.cert.pem ca/root/certs/ca.cert.pem > ca_chain.pem
+
+openssl verify -CAfile ca_chain.pem app.cert.pem
+
+app.cert.pem: OK
+==========================================================================
 
 
  
