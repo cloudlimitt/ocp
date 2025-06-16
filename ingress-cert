@@ -38,15 +38,18 @@ openssl x509 -req -in ca/intermediate/intermediate.csr.pem \
 openssl genrsa -out app.key.pem 2048
 
 # Generate App CSR
-openssl req -new -key app.key.pem \
-  -subj "/C=IN/ST=TN/L=Chennai/O=MyApp/CN=myapp.example.com" \
-  -out app.csr.pem
+openssl req -new -key app.key.pem -out app.csr.pem \
+  -subj "/C=IN/ST=TN/L=Chennai/O=MyApp/CN=api.lab.ocp.php" \
+  -addext "subjectAltName=DNS:api.lab.ocp.php,DNS:*.apps.lab.ocp.php"
+
 4. ✅ Sign App CSR with Intermediate CA
 # Sign App CSR using Intermediate CA
-openssl x509 -req -in app.csr.pem \
+openssl x509 -req  -copy_extensions copy  -in app.csr.pem \
   -CA ca/intermediate/certs/intermediate.cert.pem \
   -CAkey ca/intermediate/private/intermediate.key.pem \
   -CAcreateserial -out app.cert.pem -days 825 -sha256
+
+
 
 ✅ Resulting Files:
 ca/root/certs/ca.cert.pem → Root CA cert
