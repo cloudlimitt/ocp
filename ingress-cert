@@ -1,1 +1,65 @@
+📁 Prerequisites:
+=================
+Create a directory structure:
 
+mkdir -p ca/{root,intermediate}/{certs,crl,newcerts,private}
+touch ca/{root,intermediate}/index.txt
+echo 1000 > ca/{root,intermediate}/serial
+chmod 700 ca/{root,intermediate}/private
+
+1. ✅ Root CA (Self-Signed)
+=============================
+# Generate Root Key
+openssl genrsa -out ca/root/private/ca.key.pem 4096
+# Generate Root Certificate
+openssl req -x509 -new -nodes -key ca/root/private/ca.key.pem -sha256 -days 3650 \
+  -subj "/C=IN/ST=TN/L=Chennai/O=MyOrg Root CA/CN=RootCA" \
+  -out ca/root/certs/ca.cert.pem
+
+2. ✅ Intermediate CA (Signed by Root)
+==============================================
+# Generate Intermediate Key
+openssl genrsa -out ca/intermediate/private/intermediate.key.pem 4096
+
+# Create Intermediate CSR
+openssl req -new -key ca/intermediate/private/intermediate.key.pem \
+  -subj "/C=IN/ST=TN/L=Chennai/O=MyOrg Intermediate CA/CN=IntermediateCA" \
+  -out ca/intermediate/intermediate.csr.pem
+
+# Sign Intermediate CSR with Root CA
+openssl x509 -req -in ca/intermediate/intermediate.csr.pem \
+  -CA ca/root/certs/ca.cert.pem -CAkey ca/root/private/ca.key.pem \
+  -CAcreateserial -out ca/intermediate/certs/intermediate.cert.pem \
+  -days 1825 -sha256
+====================================================
+3. ✅ Application CSR & Private Key
+
+# Generate App Key
+openssl genrsa -out app.key.pem 2048
+
+# Generate App CSR
+openssl req -new -key app.key.pem \
+  -subj "/C=IN/ST=TN/L=Chennai/O=MyApp/CN=myapp.example.com" \
+  -out app.csr.pem
+4. ✅ Sign App CSR with Intermediate CA
+# Sign App CSR using Intermediate CA
+openssl x509 -req -in app.csr.pem \
+  -CA ca/intermediate/certs/intermediate.cert.pem \
+  -CAkey ca/intermediate/private/intermediate.key.pem \
+  -CAcreateserial -out app.cert.pem -days 825 -sha256
+
+✅ Resulting Files:
+ca/root/certs/ca.cert.pem → Root CA cert
+
+ca/intermediate/certs/intermediate.cert.pem → Intermediate CA cert
+
+app.key.pem → App private key
+
+app.cert.pem → App certificate (signed by Intermediate)
+
+🔗 (Optional) Create Full Chain Certificate
+==================================================================
+cat app.cert.pem ca/intermediate/certs/intermediate.cert.pem ca/root/certs/ca.cert.pem > app.fullchain.pem
+
+
+ 
