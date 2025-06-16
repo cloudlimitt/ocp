@@ -1,67 +1,123 @@
-📁 Prerequisites:
-=================
-Create a directory structure:
-
+📁 1. Directory Setup
 mkdir -p ca/{root,intermediate}/{certs,crl,newcerts,private}
-touch ca/{root,intermediate}/index.txt
-echo 1000 > ca/{root,intermediate}/serial
+touch ca/root/index.txt ca/intermediate/index.txt
+echo 1000 > ca/root/serial
+echo 1000 > ca/intermediate/serial
+echo 1000 > ca/intermediate/crlnumber
 chmod 700 ca/{root,intermediate}/private
+🔐 2. Root CA Key + Self-Signed Certificate
 
-1. ✅ Root CA (Self-Signed)
-=============================
-# Generate Root Key
 openssl genrsa -out ca/root/private/ca.key.pem 4096
-# Generate Root Certificate
-openssl req -x509 -new -nodes -key ca/root/private/ca.key.pem -sha256 -days 3650 \
-  -subj "/C=IN/ST=TN/L=Chennai/O=MyOrg Root CA/CN=RootCA" \
-  -out ca/root/certs/ca.cert.pem
 
-2. ✅ Intermediate CA (Signed by Root)
-==============================================
-# Generate Intermediate Key
+openssl req -x509 -new -nodes -key ca/root/private/ca.key.pem \
+  -sha256 -days 3650 \
+  -subj "/C=IN/ST=TN/L=Chennai/O=MyOrg Root CA/CN=RootCA" \
+  -out ca/root/certs/ca.cert.pem \
+  -extensions v3_ca \
+  -config <(cat <<EOF
+[ req ]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_ca
+prompt = no
+
+[ req_distinguished_name ]
+C=IN
+ST=TN
+L=Chennai
+O=MyOrg Root CA
+CN=RootCA
+
+[ v3_ca ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = critical,CA:true
+keyUsage = critical, keyCertSign, cRLSign
+EOF
+)
+🛠️ 3. Intermediate CA Key + CSR
+
 openssl genrsa -out ca/intermediate/private/intermediate.key.pem 4096
 
-# Create Intermediate CSR
 openssl req -new -key ca/intermediate/private/intermediate.key.pem \
   -subj "/C=IN/ST=TN/L=Chennai/O=MyOrg Intermediate CA/CN=IntermediateCA" \
   -out ca/intermediate/intermediate.csr.pem
+🔏 4. Sign Intermediate CA with Root (with correct extensions)
 
-# Sign Intermediate CSR with Root CA
 openssl x509 -req -in ca/intermediate/intermediate.csr.pem \
   -CA ca/root/certs/ca.cert.pem -CAkey ca/root/private/ca.key.pem \
-  -CAcreateserial -out ca/intermediate/certs/intermediate.cert.pem \
-  -days 1825 -sha256
-====================================================
-3. ✅ Application CSR & Private Key
+  -CAcreateserial \
+  -out ca/intermediate/certs/intermediate.cert.pem \
+  -days 1825 -sha256 \
+  -extfile <(cat <<EOF
+basicConstraints=critical,CA:TRUE,pathlen:0
+keyUsage=critical, keyCertSign, cRLSign
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+EOF
+)
+📦 5. App Key + CSR with SAN
 
-# Generate App Key
 openssl genrsa -out app.key.pem 2048
 
-# Generate App CSR
 openssl req -new -key app.key.pem -out app.csr.pem \
-  -subj "/C=IN/ST=TN/L=Chennai/O=MyApp/CN=api.lab.ocp.php" \
-  -addext "subjectAltName=DNS:api.lab.ocp.php,DNS:*.apps.lab.ocp.php"
+  -subj "/C=IN/ST=TN/L=Chennai/O=MyApp/CN=myapp.example.com" \
+  -addext "subjectAltName=DNS:myapp.example.com,DNS:www.myapp.example.com,IP:192.168.1.100"
+🧾 6. Minimal OpenSSL Config for Intermediate CA to Sign App Cert
+Save this as intermediate.cnf:
 
-4. ✅ Sign App CSR with Intermediate CA
-# Sign App CSR using Intermediate CA
-openssl x509 -req  -copy_extensions copy  -in app.csr.pem \
-  -CA ca/intermediate/certs/intermediate.cert.pem \
-  -CAkey ca/intermediate/private/intermediate.key.pem \
-  -CAcreateserial -out app.cert.pem -days 825 -sha256
 
-5. Create Full Chain Certificate
+[ ca ]
+default_ca = CA_default
 
-# cat app.cert.pem ca/intermediate/certs/intermediate.cert.pem ca/root/certs/ca.cert.pem > app.fullchain.pem
-==========================================
-✅ Resulting Files:
-ca/root/certs/ca.cert.pem → Root CA cert
+[ CA_default ]
+dir = ./ca/intermediate
+certs = $dir/certs
+new_certs_dir = $dir/newcerts
+database = $dir/index.txt
+serial = $dir/serial
+crlnumber = $dir/crlnumber
+certificate = $dir/certs/intermediate.cert.pem
+private_key = $dir/private/intermediate.key.pem
+default_days = 825
+default_md = sha256
+policy = policy_loose
+copy_extensions = copy
 
-ca/intermediate/certs/intermediate.cert.pem → Intermediate CA cert
+[ policy_loose ]
+commonName = supplied
 
-app.key.pem → App private key
+[ usr_cert ]
+basicConstraints = CA:FALSE
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
 
-app.cert.pem → App certificate (signed by Intermediate)
-==========================================================================
+[ alt_names ]
+DNS.1 = myapp.example.com
+DNS.2 = www.myapp.example.com
+IP.1 = 192.168.1.100
+🖋️ 7. Sign App Cert with Intermediate CA (SAN preserved)
+
+openssl ca -batch -config intermediate.cnf \
+  -extensions usr_cert \
+  -in app.csr.pem -out app.cert.pem
+🔗 8. Create Full Chain
+
+cat app.cert.pem ca/intermediate/certs/intermediate.cert.pem ca/root/certs/ca.cert.pem > app.fullchain.pem
+✅ 9. Verify Certificate and SAN
+openssl verify -CAfile <(cat ca/intermediate/certs/intermediate.cert.pem ca/root/certs/ca.cert.pem) app.cert.pem
+Should output:
+app.cert.pem: OK
+
+To confirm SAN:
+openssl x509 -in app.cert.pem -noout -text | grep -A1 "Subject Alternative Name"
+
+📌 Summary of Files
+File	Purpose
+ca/root/certs/ca.cert.pem	Root CA cert
+ca/intermediate/certs/intermediate.cert.pem	Intermediate cert
+app.cert.pem	App cert with SAN
+app.fullchain.pem	Full chain for servers
 Verification - 
 =============================
 1. openssl x509 -in app.cert.pem -noout -text | grep -A1 "Subject Alternative Name"
