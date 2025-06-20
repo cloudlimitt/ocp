@@ -23,19 +23,19 @@ curl -v http://192.168.2.210:8000/bootstrap.ign
 openshift-install coreos print-stream-json | grep '\.iso[^.]'
 
 sudo coreos-installer install --ignition-url=http://192.168.2.210:8000/bootstrap.ign /dev/sda --insecure-ignition \
---append-karg ip=192.168.2.205::192.168.2.254:255.255.255.0:ocp-bootstrap.lab.ocp.php:enp0s3:none \
+--append-karg ip=192.168.2.205::192.168.2.1:255.255.255.0:ocp-bootstrap.lab.ocp.php:enp0s3:none \
 --append-karg nameserver=192.168.2.210
 
 sudo coreos-installer install --ignition-url=http://192.168.2.210:8000/master.ign /dev/sda --insecure-ignition \
---append-karg ip=192.168.2.200::192.168.2.254:255.255.255.0:ocp-master.lab.ocp.php:enp0s3:none \
+--append-karg ip=192.168.2.200::192.168.2.1:255.255.255.0:ocp-master.lab.ocp.php:enp0s3:none \
 --append-karg nameserver=192.168.2.210
 
 sudo coreos-installer install --ignition-url=http://192.168.2.210:8000/master.ign /dev/sda --insecure-ignition \
---append-karg ip=192.168.2.201::192.168.2.254:255.255.255.0:ocp-master1.lab.ocp.php:enp0s3:none \
+--append-karg ip=192.168.2.201::192.168.2.1:255.255.255.0:ocp-master1.lab.ocp.php:enp0s3:none \
 --append-karg nameserver=192.168.2.210
 
 sudo coreos-installer install --ignition-url=http://192.168.2.210:8000/master.ign /dev/sda --insecure-ignition \
---append-karg ip=192.168.2.202::192.168.2.254:255.255.255.0:ocp-master2.lab.ocp.php:enp0s3:none \
+--append-karg ip=192.168.2.202::192.168.2.1:255.255.255.0:ocp-master2.lab.ocp.php:enp0s3:none \
 --append-karg nameserver=192.168.2.210
 
 --append-karg ip=::10.10.10.254::::
